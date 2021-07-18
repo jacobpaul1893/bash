@@ -27,7 +27,7 @@ all_files=$(find $folder_to_search -type f)
 for dir in $all_dirs;
 do
     dir_details=$(stat $dir --format='%a %n' | awk '{print "dir_perm="$1; print "dir_name="$2}')
-    eval $dir_details
+    declare $dir_details
     other_user=$((dir_perm%10))
     if (( $other_user != 5 && $other_user != 7 )); then
         printf "$dir_perm $dir_name\n" >> "${filename_to_save}.txt"
@@ -40,7 +40,7 @@ done
 for file in $all_files;
 do
     file_details=$(stat $file --format='%a %n' | awk '{print "file_perm="$1; print "file_name="$2}')
-    eval $file_details
+    declare $file_details
     other_user=$((file_perm%10))
     if (( $other_user < 4 )); then
         printf "$file_perm $file_name\n" >> "${filename_to_save}.txt"
